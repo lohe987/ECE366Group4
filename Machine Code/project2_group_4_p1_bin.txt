@@ -35,12 +35,29 @@ jump 14				0 100 1110	PC = PC - 14
  
 2nd Part: Mod Calculus
 
-R0 = 6^p
-Store the value of 6^p
-Set R1 = 1
-Set R2 = 1
-Shift R2 left until it gets to 16
-Then R2 = R2 + R1 = 17
-Shift R2 left until R2 > 6^p
-While (R2 > 6^p): R2 = R2 - 17
-Result = 6^p - R2 = 6^p mod 17	
+
+init R3, 0                      1 111 0110      //R0 = 6^p
+store R0, (R3)                  0 011 0011      //Store the value of 6^p
+init R1, 1                      1 111 0011      //Set R1 = 1
+add R3, R1                      1 000 1101      //move R3 by 1 to save 17 w/o overwriting 6^p
+init R2, 1                      1 111 0101      //Set R2 = 1
+ShiftL                          0 111 1000      //Shift R2 left until it gets to 16 (1 - 10)
+ShiftL                          0 111 1000      //shift from 10 - 100
+ShiftL                          0 111 1000      //Shift from 100 - 1000
+ShiftL                          0 111 1000      //Shift from 1000 - 10000
+Add R2, R1			0 000 1001      //Then R2 = R2 + R1 = 17  (10000 + 1 =10001)
+Store R2, (R3)                  1 011 1011      //save 17 (R2) in memory
+shifting:					//loop the shifting
+ShiftL				0 111 1000      //Shift R2 left until R2 > 6^p
+sltR1 R0, R2 			1 110 0010      //check if 6^p is greater than shifted 17
+bezR1 -3			1 101 1101      //since 6^p is greater than shifted 17 it will keep looping the shift, we go back 3 spaces
+sub R3, R1			0 001 1101      //move R3 to 6^p
+load R0, (R3)			1 010 0011      //r0=6^p
+add R3, R1			1 000 1101      //move R3 to read 17 from mem
+load R3, (R3)	    		1 010 1111      //load 17 into R3 from R3
+sub17:						//this is where we loop a subtraction of the shifted 17...for example 100010000000 - 17 repeatedly until under 6^p
+Sub R2, R3			0 001 1011      //While (R2 > 6^p): R2 = R2 - 17
+sltR1 R0, R2                    1 110 0010      //10001..<6^p   R1=1
+beqR1, -3                       0 101 1100      //since R1=1 go back 4 to sub17 loop position
+sub R0, R2                      0 001 0010      //Result = 6^p - R2 = 6^p mod 17
+store R0, (R3)                  0 011 0011      //store result into memory and we are done	
