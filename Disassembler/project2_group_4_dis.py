@@ -52,12 +52,12 @@ for line in input_file:
         output_file.write("Add R" + register1 + ", R" + register2)
         output_file.write("         // R" + register1 + " = R" + register1 + " + R" + register2 + "\n")
 
-    elif (line[1:4] == "100"):
-        immediate = str(int(line[4:8], 2))
-        output_file.write("Jump " + immediate)
-        output_file.write("         // PC = PC - " + immediate + "\n")
+    elif (line[1:6] == "10000"):
+        register = str(int(line[6:8], 2))
+        output_file.write("Jump R" + register)
+        output_file.write("         // PC = PC - R" + register + "\n")
 
-    elif (line[1:4] == "101"):
-        immediate = str(int(line[4:8], 2))
-        output_file.write("bezR1 " + immediate)
-        output_file.write("         // if R1 ==0: PC = PC + " + immediate + " | else: PC++ \n")
+    elif (line[1:6] == "10101"):
+        register = str(int(line[6:8], 2))
+        output_file.write("bezR1, R" + register)
+        output_file.write("         // if R1 ==0: PC = PC + R" + register + " | else: PC++ \n")
