@@ -57,7 +57,7 @@ for line in input_file:
         output_file.write("Jump R" + register)
         output_file.write("         // PC = PC - R" + register + "\n")
 
-    elif (line[1:6] == "10101"):
+    elif (line[1:6] == "10100"):
         register = str(int(line[6:8], 2))
         output_file.write("bezR1, R" + register)
         output_file.write("         // if R1 ==0: PC = PC + R" + register + " | else: PC++ \n")
