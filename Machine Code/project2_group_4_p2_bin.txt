@@ -1,0 +1,107 @@
+R2=1                    Init R2, 1
+ShiftL					        ShiftL
+ShiftL				        	ShiftL
+ShiftL					        ShiftL
+ShiftL					        ShiftL
+R3=16					          Add R3, R2
+R2=1				            Init R2, 1
+Add R3, R2				      Add R3, R2
+R2=0					          Init R2, 0
+Store R2, R3			      Store R2, R3
+
+L1:
+R0=Array
+R1=Compare
+R2=1					          Init R2, 1
+Add R3, R2				      Add R3, R2
+R2=0					          Init R2, 0
+Store R2, (R3)			     Store, R2, R3
+Load R2, (R0)
+R2 = R2 XOR R1
+R0=M[4]
+Store dest of done:
+R0=M[5]
+Store dest of one:
+R0 = M[6]
+Store dest of L2:
+
+
+R2=R2 XOR R1
+L2:
+R1=0
+R2=R2 XOR R1
+R3=0
+SLT R1, R3, R2
+BEZR1, R0 done
+ADD R3, R2
+R1=1
+Shl R2
+Add R2, R1
+Store R3, R2
+AND R3
+R2=1
+Shl R2
+ADD R2, R1
+Load R2, (R2)
+ShrR2
+R1=1
+SltR1 R3, R1
+R2=1
+ShlR2
+ShlR2
+Add R2, R1
+Load R0, (R2)
+BezR1 R0
+R1=1
+Add R2, R1
+Load R0, (R2)
+ShrR2
+Load R2, (R2)
+j R0
+
+one:
+R0=M[5]=R2
+Sub R2, R1
+ShrR2
+Load R1, (R2)
+R3=1
+Add R1, R3
+Store R1, (R2)
+Add R2, R3
+R0=1
+Add R0, R2
+Load R2, (R2)
+R3=1
+Add R0, R3
+Add R0, R3
+Load R1, (R3)
+j R1
+
+done:
+Load R3, (R0)
+R2=1
+ShlR2
+Load R0, (R2)
+Sub R3, R0
+ShrR2
+Load R2, (R2)
+SHR1 R3, R2
+BezR1, best
+J finish
+
+best:
+Store R2, ...
+Sub R2, R3
+R1=R2
+bezR1 best2
+M[2]=0
+J best2
+
+best2:
+M[2]+1
+j finish
+
+finish:
+
+
+
