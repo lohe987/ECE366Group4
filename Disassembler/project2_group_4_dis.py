@@ -1,7 +1,7 @@
-input_file = open("project2_group_4_p1_mc.txt","r")
-output_file = open("project2_group_4_p1_asm.txt","w")
+input_file = open("project2_group_4_p2_mc.txt","r")
+output_file = open("project2_group_4_p2_asm.txt","w")
 
-output_file.write("Disassembling Machine Code from Program 1...\n \n")
+output_file.write("Disassembling Machine Code from Program 2...\n \n")
 
 for line in input_file:
     if (line[1:8] == "1111100"):
@@ -59,5 +59,5 @@ for line in input_file:
 
     elif (line[1:6] == "10100"):
         register = str(int(line[6:8], 2))
-        output_file.write("bezR1, R" + register)
-        output_file.write("         // if R1 ==0: PC = PC + R" + register + " | else: PC++ \n")
+        output_file.write("bezR1 R" + register)
+        output_file.write("         // if R1 == 0: PC = PC + R" + register + " | else: PC++ \n")
